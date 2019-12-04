@@ -6,8 +6,8 @@
       <div id="firstColumn">
         <div class="ta-center">{{ day.weekDayName }} {{ day.dateInMonth }}</div>
       </div>
-      <div>symbol1</div>
-      <div>symbol2</div>
+      <div><i class="icon-adult"></i></div>
+      <div><i class="icon-phone-outline"></i></div>
       <div>
           <span *ngIf="!day.editMode">{{day.persons}}</span>
         <input #personInput (click)="personInput.select()" *ngIf="day.editMode" name="persons" class="ta-center" type="number" [(ngModel)]="day.persons" />

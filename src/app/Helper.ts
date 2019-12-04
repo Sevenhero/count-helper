@@ -7,10 +7,7 @@ export class Helper {
     let usedDaysInMonth = [];
     for (let i = 1; i <= daysInMonth; i++) {
       let calculatedDate = date.clone().date(i);
-      if (
-        calculatedDate.day() === DayOfWeek.Friday ||
-        calculatedDate.day() === DayOfWeek.Sunday
-      )
+      if (calculatedDate.day() === DayOfWeek.Friday || calculatedDate.day() === DayOfWeek.Sunday)
         usedDaysInMonth.push(calculatedDate);
     }
     return usedDaysInMonth;
@@ -24,11 +21,9 @@ export class Helper {
       .minutes(0);
     let firstDateOfLastMoth = firstDateOfCurrentMoth
       .clone()
-      .subtract(1, "months");
-    let firstDateOfNextMoth = firstDateOfCurrentMoth.clone().add(1, "months");
+      .subtract(1, "month");
     let lastMonth = new Month(this.getDatesOfMonth(firstDateOfLastMoth));
     let currentMonth = new Month(this.getDatesOfMonth(firstDateOfCurrentMoth));
-    let nextMonth = new Month(this.getDatesOfMonth(firstDateOfNextMoth));
-    return [lastMonth, currentMonth, nextMonth];
+    return [lastMonth, currentMonth];
   }
 }
