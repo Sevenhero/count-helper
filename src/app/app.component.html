@@ -1,23 +1,86 @@
 <div>
-  <h5 class="title is-5 ta-center">Notehelper</h5>
+  <!-- <input type="file" (change)="fileChange($event)" placeholder="Upload file"> -->
   <div *ngFor="let month of months" class="month-card">
-    <h4 class="title is-4 ta-center">{{ month.name }} <span>symbol</span></h4>
-    <div *ngFor="let day of month.days" class="day">
-      <div id="firstColumn">
-        <div class="ta-center">{{ day.weekDayName }} {{ day.dateInMonth }}</div>
+    <div class="month">
+      <h4 (click)="month.toggle = !month.toggle" class="title is-4 ta-center">
+        <i
+          [ngClass]="{
+            'icon-up-open': !month.wasSend || (month.toggle && month.wasSend),
+            'icon-down-open': !(
+              !month.wasSend ||
+              (month.toggle && month.wasSend)
+            )
+          }"
+        ></i>
+        {{ month.name }}
+      </h4>
+      <button
+        [disabled]="isLastMonthPast(month) || month.wasSend"
+        (click)="sendMail(month)"
+        class="button is-small c-button"
+        [ngClass]="!month.wasSend ? 'is-light' : 'is-success'"
+      >
+        <i class="icon-mail"></i>
+      </button>
+    </div>
+    <div *ngIf="!month.wasSend || (month.toggle && month.wasSend)">
+      <div
+        *ngFor="let day of month.days"
+        data-id="{{ day.dateInSeconds }}"
+        class="day"
+        [ngClass]="{
+          'tag is-primary': day.dateInSeconds.toString() === nextDayId
+        }"
+      >
+        <div id="firstColumn">
+          <div class="ta-center">
+            {{ day.weekDayName }} {{ day.dateInMonth }}
+          </div>
+        </div>
+        <div><i class="icon-adult"></i></div>
+        <div><i class="icon-phone"></i></div>
+        <div>
+          <span *ngIf="!day.editMode">{{ day.persons }}</span>
+          <input
+            #personInput
+            (click)="personInput.select()"
+            *ngIf="day.editMode"
+            name="persons"
+            class="ta-center"
+            type="number"
+            [(ngModel)]="day.persons"
+          />
+        </div>
+        <div>
+          <span *ngIf="!day.editMode">{{ day.phone }}</span>
+          <input
+            #phoneInput
+            (click)="phoneInput.select()"
+            *ngIf="day.editMode"
+            name="phone"
+            class="ta-center"
+            type="number"
+            [(ngModel)]="day.phone"
+          />
+        </div>
+        <button
+          [disabled]="month.wasSend"
+          *ngIf="!day.editMode"
+          class="button is-light"
+          id="lastColumn"
+          (click)="day.editMode = true"
+        >
+          <i class="icon-edit"></i>
+        </button>
+        <button
+          *ngIf="day.editMode"
+          class="button is-success"
+          id="lastColumn"
+          (click)="day.editMode = false; save()"
+        >
+          <i class="icon-floppy"></i>
+        </button>
       </div>
-      <div><i class="icon-adult"></i></div>
-      <div><i class="icon-phone-outline"></i></div>
-      <div>
-          <span *ngIf="!day.editMode">{{day.persons}}</span>
-        <input #personInput (click)="personInput.select()" *ngIf="day.editMode" name="persons" class="ta-center" type="number" [(ngModel)]="day.persons" />
-      </div>
-      <div>
-          <span *ngIf="!day.editMode">{{day.phone}}</span>
-        <input #phoneInput (click)="phoneInput.select()" *ngIf="day.editMode" name="phone" class="ta-center" type="number" [(ngModel)]="day.phone" />
-      </div>
-      <button *ngIf="!day.editMode" class="button is-light" id="lastColumn" (click)="day.editMode = true"><i class="icon-edit"></i></button>
-      <button *ngIf="day.editMode" class="button is-success" id="lastColumn" (click)="day.editMode = false"><i class="icon-floppy"></i></button>
     </div>
   </div>
-</div> 
+</div>

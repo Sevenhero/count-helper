@@ -18,7 +18,9 @@ export class Helper {
     let firstDateOfCurrentMoth = moment()
       .startOf("month")
       .hours(0)
-      .minutes(0);
+      .minutes(0)
+      .seconds(0)
+      .milliseconds(0);
     let firstDateOfLastMoth = firstDateOfCurrentMoth
       .clone()
       .subtract(1, "month");
