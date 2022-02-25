@@ -1,0 +1,30 @@
+name: Integrate
+
+on:
+    push:
+        branches:
+            - main
+    pull_request:
+            - main
+jobs:
+    build:
+        name: Build
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v2
+
+            - name: Install dependencies
+              run: npm ci
+            
+            - name: Install lint
+              run: npm run lint
+            
+            - name: Install test
+              run: npm run test
+
+            - name: Install e2e
+              run: npm run e2e
+
+            - name: Install build
+              run: npm run build
